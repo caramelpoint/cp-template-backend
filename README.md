@@ -30,6 +30,7 @@ Docker
     </li>
     <li><a href="#local-development-configuration">Local development configuration</a></li>
     <li><a href="#authentication-examples">Authentication examples</a></li>
+    <li><a href="#todo">TODOs</a></li>
 </ol>
 </details>
 
@@ -129,3 +130,21 @@ curl --location --request POST 'http://localhost:4000/auth/signin' \
 curl --location --request GET 'http://localhost:4000/auth/test' \
 --header 'Authorization: Bearer {{token}}'
 ```
+
+# TODO:
+
+1. Docker file using yarn, add the image to docker-compose
+2. Logger
+
+- Add Custom Logger Winston Logger.
+- Logstash, GCloudLogs if possible.
+- Logging into files with rotation.
+- Log inbound request.
+- Log outbound request.
+- Logger Configuration by env vars
+
+3. Authoritazation/ac/roles/AdminUser
+4. Entity Auditable
+5. TypeORM Soft Deletion
+6. Transacctions at Service Layer
+7. Axios-Retry (configuration for microservices comunication)
