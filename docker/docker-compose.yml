@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  template-db:
+    image: postgres:12.4
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_INIT_DB}
+      POSTGRES_USER: ${DB_ROOT_USER}
+      POSTGRES_PASSWORD: ${DB_ROOT_PASS}
+    ports:
+      - ${DB_HOST_PORT}:${DB_GUEST_PORT}
+    volumes:
+      - template-db-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  template-dbadmin:
+    image: dpage/pgadmin4:4.25
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${DB_ADMIN_MAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${DB_ADMIN_PASS}
+      PGADMIN_LISTEN_PORT: ${DB_ADMIN_GUEST_PORT}
+    ports:
+      - ${DB_ADMIN_HOST_PORT}:${DB_ADMIN_GUEST_PORT}
+    volumes:
+      - template-dbadmin-data:/var/lib/pgadmin
+    depends_on:
+      - template-db
+volumes:
+  template-db-data:
+  template-dbadmin-data:
