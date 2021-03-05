@@ -10,6 +10,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtModuleAsyncOptions } from './config/jwtModuleAsyncOptions.config';
 import { AuthModule } from './auth/auth.module';
+import { ExamplesModule } from './examples/examples.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuthModule } from './auth/auth.module';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync(jwtModuleAsyncOptions),
     AuthModule,
+    ExamplesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
