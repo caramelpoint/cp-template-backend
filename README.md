@@ -13,7 +13,7 @@ Docker
       <a href="#quick-start-example">Quick Start Example</a>
     </li>
     <li>
-      <a href="#initialize-postgres-db-keycloak-and-redis">Initialize Postgres DB, Keycloak and Redis</a>
+      <a href="#initialize-postgres-db">Initialize Postgres DB, Keycloak and Redis</a>
       <ul>
         <li><a href="#initialization">Initialization</a></li>
         <li><a href="#using-database-admin">Using Database Admin</a></li>
@@ -29,6 +29,7 @@ Docker
       </ul>
     </li>
     <li><a href="#local-development-configuration">Local development configuration</a></li>
+    <li><a href="#authentication-examples">Authentication examples</a></li>
 </ol>
 </details>
 
@@ -95,4 +96,36 @@ and start the project with
 
 ```sh
    npm run start
+```
+
+## Authentication examples
+
+### SignUp (curl)
+
+```sh
+   curl --location --request POST 'http://localhost:4000/auth/signup' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "test@test.com",
+    "username": "username1234",
+    "password": "Password.1"
+}'
+```
+
+### SignIn (curl)
+
+```sh
+curl --location --request POST 'http://localhost:4000/auth/signin' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "test@test.com",
+    "password": "Password.1"
+}'
+```
+
+### Api with credentials (curl)
+
+```sh
+curl --location --request GET 'http://localhost:4000/auth/test' \
+--header 'Authorization: Bearer {{token}}'
 ```

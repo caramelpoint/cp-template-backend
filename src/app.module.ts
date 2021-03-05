@@ -6,10 +6,13 @@ import configuration from './config/env.config';
 import { configValidation } from './config/config-validation';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmModuleAsyncOptions } from './config/typeOrmModuleAsyncOptions.config';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtModuleAsyncOptions } from './config/jwtModuleAsyncOptions.config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    // HttpModule,
     TypeOrmModule.forRootAsync(typeOrmModuleAsyncOptions),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -20,6 +23,9 @@ import { typeOrmModuleAsyncOptions } from './config/typeOrmModuleAsyncOptions.co
         abortEarly: true,
       },
     }),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.registerAsync(jwtModuleAsyncOptions),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
