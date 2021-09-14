@@ -12,3 +12,8 @@ TYPEORM_SYNCHRONIZE=            // false
 TYPEORM_DROP_SCHEMA=            // false
 TYPEORM_RUN_MIGRATION=          // true
 TYPEORM_LOG=                    // false
+
+NETWORK_ID                      // 4 (Rinkeby Network Id)
+WALLET_PRIVATE_KEY              *
+WALLET_PUBLIC_KEY               *
+INFURA_KEY                      *
