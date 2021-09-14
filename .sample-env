@@ -13,7 +13,7 @@ TYPEORM_DROP_SCHEMA=            // false
 TYPEORM_RUN_MIGRATION=          // true
 TYPEORM_LOG=                    // false
 
-NETWORK_ID                      // 4
-WALLET_PRIVATE_KEY              // undefined
-WALLET_PUBLIC_KEY               // undefined
-INFURA_KEY                      // undefined
+NETWORK_ID                      // 4 (Rinkeby Network Id)
+WALLET_PRIVATE_KEY              *
+WALLET_PUBLIC_KEY               *
+INFURA_KEY                      *

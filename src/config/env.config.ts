@@ -54,8 +54,8 @@ export default () => {
   };
 
   const web3Config: Web3Config = {
-    networkId: parseInt(process.env.NETWORK_ID) || 4,
-    walletPrivateKey: `${process.env.WALLET_PRIVATE_KEY}`,
+    networkId: parseInt(process.env.NETWORK_ID) || 4, //Rinkeby Network
+    walletPrivateKey: process.env.WALLET_PRIVATE_KEY,
     walletPublicKey: process.env.WALLET_PUBLIC_KEY,
     infuraProjectId: process.env.INFURA_KEY,
   };
