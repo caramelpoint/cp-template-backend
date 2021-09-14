@@ -4,6 +4,12 @@ interface ServerConfig {
   expirationTime: number;
 }
 
+interface Web3Config {
+  networkId: number;
+  walletPrivateKey: string;
+  walletPublicKey: string;
+  infuraProjectId: string;
+}
 export interface DatabaseConfig {
   type: string;
   host: string;
@@ -47,8 +53,16 @@ export default () => {
     migrationsRun: process.env.TYPEORM_RUN_MIGRATION ? process.env.TYPEORM_RUN_MIGRATION === 'true' : true,
   };
 
+  const web3Config: Web3Config = {
+    networkId: parseInt(process.env.NETWORK_ID) || 4,
+    walletPrivateKey: `${process.env.WALLET_PRIVATE_KEY}`,
+    walletPublicKey: process.env.WALLET_PUBLIC_KEY,
+    infuraProjectId: process.env.INFURA_KEY,
+  };
+
   return {
     server: serverConfig,
     database: databaseConfig,
+    web3: web3Config,
   };
 };
