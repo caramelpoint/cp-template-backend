@@ -5,35 +5,6 @@ NodeJS: v14.16.0
 NPM: 6.14.11
 Docker
 
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#quick-start-example">Quick Start Example</a>
-    </li>
-    <li>
-      <a href="#initialize-postgres-db">Initialize Postgres DB, Keycloak and Redis</a>
-      <ul>
-        <li><a href="#initialization">Initialization</a></li>
-        <li><a href="#using-database-admin">Using Database Admin</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#using-migrations">Using Migrations</a>
-      <ul>
-        <li><a href="#generate-migration-file">Generate migration file</a></li>
-        <li><a href="#run-migration">Run migration</a></li>
-        <li><a href="#revert-migration">Revert migration</a></li>
-        <li><a href="#create-empty-migration-file">Create empty migration file</a></li>
-      </ul>
-    </li>
-    <li><a href="#local-development-configuration">Local development configuration</a></li>
-    <li><a href="#authentication-examples">Authentication examples</a></li>
-    <li><a href="#todo">TODOs</a></li>
-</ol>
-</details>
-
 ## Quick Start Example
 
 - Run `docker-compose up -d` (inside docker folder) to start Postgres database
@@ -131,20 +102,18 @@ curl --location --request GET 'http://localhost:4000/auth/test' \
 --header 'Authorization: Bearer {{token}}'
 ```
 
-# TODO:
+## TODO
 
 1. Docker file using yarn, add the image to docker-compose
 2. Logger
-
-- Add Custom Logger Winston Logger.
-- Logstash, GCloudLogs if possible.
-- Logging into files with rotation.
-- Log inbound request.
-- Log outbound request.
-- Logger Configuration by env vars
-
-3. Authoritazation/ac/roles/AdminUser
+   - Add Custom Logger Winston Logger.
+   - Logstash, GCloudLogs if possible.
+   - Logging into files with rotation.
+   - Log inbound request.
+   - Log outbound request.
+   - Logger Configuration by env vars
+3. Authorization/ac/roles/AdminUser
 4. Entity Auditable
 5. TypeORM Soft Deletion
-6. Transacctions at Service Layer
-7. Axios-Retry (configuration for microservices comunication)
+6. Transactions at Service Layer
+7. Axios-Retry (configuration for micro-services communication)

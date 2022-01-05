@@ -3,9 +3,9 @@ SERVER_PORT=                    // 3000
 SERVER_JWT_SECRET=              // TopseyCret
 SERVER_JWT_EXPIRATION_TIME=     // 3600
 
-TYPEORM_USERNAME=               * 
-TYPEORM_PASSWORD=               *
-TYPEORM_DATABASE=               *
+TYPEORM_USERNAME=               * // get value from docker/.env DB_ROOT_USER
+TYPEORM_PASSWORD=               * // get value from docker/.env DB_ROOT_PASS
+TYPEORM_DATABASE=               * // get value from docker/.env DB_INIT_DB
 TYPEORM_HOST=                   // localhost
 TYPEORM_PORT=                   // 5432
 TYPEORM_SYNCHRONIZE=            // false
