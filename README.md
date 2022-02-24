@@ -275,7 +275,7 @@ curl --location --request GET 'http://localhost:4000/auth/test' \
 
 1. Docker file using yarn, add the image to docker-compose
 2. Logger
-   - Add Custom Logger Winston Logger.
+   - Use logger provide from NestJS.
    - Logstash, GCloudLogs if possible.
    - Logging into files with rotation.
    - Log inbound request.
