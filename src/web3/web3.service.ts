@@ -34,7 +34,7 @@ export class Web3Service {
   constructor(private configService: ConfigService) {
     const web3Configs = this.configService.get('web3');
     this.web3 = new Web3(
-      new Web3.providers.HttpProvider(NETWORKS[web3Configs.networkId] + web3Configs.infuraProjectId),
+      new Web3.providers.HttpProvider(NETWORKS[web3Configs.networkId] + web3Configs.infuraProjectId)
     );
 
     this.walletAccount = this.web3.eth.accounts.privateKeyToAccount(web3Configs.walletPrivateKey);
@@ -43,7 +43,7 @@ export class Web3Service {
     this.deployedNetwork = ContractABI.networks[web3Configs.networkId];
     this.deployedContractInstance = new this.web3.eth.Contract(
       ContractABI.abi,
-      this.deployedNetwork && this.deployedNetwork.address,
+      this.deployedNetwork && this.deployedNetwork.address
     );
   }
 

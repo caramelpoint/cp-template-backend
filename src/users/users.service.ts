@@ -10,7 +10,7 @@ import { UserSignInDto } from './dto/user-sign-in.dto';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private usersRepository: Repository<User>
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
