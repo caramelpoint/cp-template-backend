@@ -233,7 +233,7 @@ This command will create a new migration, it will take into account the migratio
 
 Most of the configurations needed are set by default, to check which environment variables can be set or which are
 mandatory look into the /.sample-env file. Create a .env file into the root folder with the configurations needed
-and start the project with
+and start the project with.
 
 ```sh
    npm run start
