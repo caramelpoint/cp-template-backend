@@ -1,39 +1,66 @@
 {
   "name": "cp-template-backend",
   "version": "0.0.1",
-  "description": "NestJS v8 template",
-  "author": "Caramel Point",
   "private": true,
+  "description": "NestJS v8 template",
   "license": "UNLICENSED",
+  "author": "Caramel Point",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
     "eslint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "eslint:fix": "npm run eslint:check -- --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format-staged": "pretty-quick --staged",
     "lint": "npm run eslint:check && npm run prettier:check",
-    "pre-commit": "lint-staged && npm run lint && npm run test",
+    "migration:create": "npm run typeorm -- migration:create",
+    "migration:generate": "npm run typeorm -- migration:generate",
+    "migration:revert": "npm run typeorm -- migration:revert",
+    "migration:run": "npm run typeorm -- migration:run",
+    "pre-commit": "lint-staged && npm run lint && npm run type-check",
+    "pre-push": "npm run test && npm run test:e2e",
     "prepare": "husky install",
-    "pre-push": "npm run test",
     "prettier:check": "prettier --check ./**/*.{ts,js,json,*rc}",
     "prettier:write": "prettier --write ./**/*.{ts,js,json,*rc}",
     "sort-package-json": "npx sort-package-json",
     "start": "nest start",
-    "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
+    "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
     "test": "jest",
     "test-staged": "jest --bail --findRelatedTests",
-    "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "format-staged": "pretty-quick --staged",
-    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js --config ./src/ormconfig.ts",
-    "migration:generate": "npm run typeorm -- migration:generate",
-    "migration:run": "npm run typeorm -- migration:run",
-    "migration:create": "npm run typeorm -- migration:create",
-    "migration:revert": "npm run typeorm -- migration:revert"
+    "test:watch": "jest --watch",
+    "type-check": "tsc --project tsconfig.json --pretty --noEmit",
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js --config ./src/ormconfig.ts"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/**.controller.ts",
+      "**/**.service.ts",
+      "**/**.middleware.ts"
+    ],
+    "coverageDirectory": "../coverage",
+    "coverageThreshold": {
+      "global": {
+        "lines": 90
+      }
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "modulePaths": [
+      "<rootDir>"
+    ],
+    "testEnvironment": "node",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    }
   },
   "dependencies": {
     "@nestjs/common": "^8.3.1",
@@ -62,6 +89,8 @@
     "web3": "^1.7.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "16.2.1",
+    "@commitlint/config-conventional": "16.2.1",
     "@nestjs/cli": "^8.2.1",
     "@nestjs/schematics": "^8.0.7",
     "@nestjs/testing": "^8.3.1",
@@ -71,8 +100,11 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
+    "commitizen": "4.2.4",
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-import": "2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "7.0.4",
     "jest": "^27.5.1",
@@ -84,28 +116,6 @@
     "ts-loader": "^9.2.6",
     "ts-node": "^10.5.0",
     "tsconfig-paths": "^3.12.0",
-    "typescript": "^4.5.5",
-    "@commitlint/cli": "16.2.1",
-    "@commitlint/config-conventional": "16.2.1",
-    "commitizen": "4.2.4",
-    "cz-conventional-changelog": "3.3.0",
-    "eslint-plugin-import": "2.25.4"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "typescript": "^4.5.5"
   }
 }
