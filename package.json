@@ -85,7 +85,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.4",
     "swagger-ui-express": "^4.3.0",
-    "typeorm": "^0.2.44",
+    "typeorm": "^0.2.45",
     "web3": "^1.7.1"
   },
   "devDependencies": {
