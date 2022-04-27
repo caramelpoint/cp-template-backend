@@ -191,6 +191,13 @@ npm run test:cov
 
 ---
 
+## Releases
+
+Run `npm run release` to create a new release, update the changelog and bumping the package version.
+Run `git push --follow-tags origin main` to push the new tag.
+
+---
+
 ## Using Migrations
 
 ### Generate migration file
@@ -273,16 +280,15 @@ curl --location --request GET 'http://localhost:4000/auth/test' \
 
 ## TODO
 
-1. Docker file using yarn, add the image to docker-compose
-2. Logger
+1. Logger
    - Use logger provide from NestJS.
    - Logstash, GCloudLogs if possible.
    - Logging into files with rotation.
    - Log inbound request.
    - Log outbound request.
    - Logger Configuration by env vars
-3. Authorization/ac/roles/AdminUser
-4. Entity Auditable
-5. TypeORM Soft Deletion
-6. Transactions at Service Layer
-7. Axios-Retry (configuration for micro-services communication)
+2. Authorization/ac/roles/AdminUser
+3. Entity Auditable
+4. TypeORM Soft Deletion
+5. Transactions at Service Layer
+6. Axios-Retry (configuration for micro-services communication)
