@@ -1,0 +1,149 @@
+# name: Backend Template CI - Main
+
+# on:
+#   push:
+#     branches: [main]
+
+# jobs:
+#   build:
+#     name: Build
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Use Node.js 16.x
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 16.x
+#           cache: 'npm'
+#       - name: Setup environments variables
+#         run: |
+#           touch .env
+#           echo SERVER_PORT=${{ secrets.SERVER_PORT }} >> .env
+#           echo TYPEORM_USERNAME=${{ secrets.TYPEORM_USERNAME }} >> .env
+#           echo TYPEORM_PASSWORD=${{ secrets.TYPEORM_PASSWORD }} >> .env
+#           echo TYPEORM_DATABASE=${{ secrets.TYPEORM_DATABASE }} >> .env
+#           echo TYPEORM_HOST=${{ secrets.TYPEORM_HOST }} >> .env
+#           echo TYPEORM_PORT=${{ secrets.TYPEORM_PORT }} >> .env
+#           echo TYPEORM_SYNCHRONIZE=${{ secrets.TYPEORM_SYNCHRONIZE }} >> .env
+#           echo TYPEORM_DROP_SCHEMA=${{ secrets.TYPEORM_DROP_SCHEMA }} >> .env
+#           echo TYPEORM_RUN_MIGRATION=${{ secrets.TYPEORM_RUN_MIGRATION }} >> .env
+#           echo TYPEORM_LOG=${{ secrets.TYPEORM_LOG }} >> .env
+#       - name: Install dependencies
+#         run: npm ci
+#       - name: Build Project
+#         run: npm run build
+#       - name: Runt Unit Test with Coverage
+#         run: npm run test:cov
+#       - name: Runt End to End test with Coverage
+#         run: npm run test:e2e:cov
+
+#   # release:
+#   #   name: Bump and Release new Version
+#   #   needs: build
+#   #   runs-on: ubuntu-latest
+#   #   steps:
+#   #     - uses: actions/checkout@v3
+#   #     - name: Use Node.js 16.x
+#   #       uses: actions/setup-node@v3
+#   #       with:
+#   #         node-version: 16.x
+#   #         cache: 'npm'
+#   #     - name: Install dependencies
+#   #       run: npm ci
+#   #     - name: Configure committer
+#   #       run: |
+#   #         git config user.name "GitHub Actions Bot"
+#   #         git config user.email "facundo@caramelpoint.com"
+#   #     - name: Bump version
+#   #       run: npm run release
+#   #     - name: Publish
+#   #       run: git push --follow-tags origin main --no-verify
+
+#   docker:
+#     name: Docker Build
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.DOCKERHUB_USERNAME }}
+#           password: ${{ secrets.DOCKERHUB_TOKEN }}
+#       - name: Build the Docker image
+#         uses: actions/checkout@v3
+#       - name: Extract package.json version
+#         id: extract_version
+#         uses: Saionaro/extract-package-version@v1.0.6
+#       - name: Setup environments variables
+#         run: |
+#           touch .env
+#           echo SERVER_PORT=${{ secrets.SERVER_PORT }} >> .env
+#           echo TYPEORM_USERNAME=${{ secrets.TYPEORM_USERNAME }} >> .env
+#           echo TYPEORM_PASSWORD=${{ secrets.TYPEORM_PASSWORD }} >> .env
+#           echo TYPEORM_DATABASE=${{ secrets.TYPEORM_DATABASE }} >> .env
+#           echo TYPEORM_HOST=${{ secrets.TYPEORM_HOST }} >> .env
+#           echo TYPEORM_PORT=${{ secrets.TYPEORM_PORT }} >> .env
+#           echo TYPEORM_SYNCHRONIZE=${{ secrets.TYPEORM_SYNCHRONIZE }} >> .env
+#           echo TYPEORM_DROP_SCHEMA=${{ secrets.TYPEORM_DROP_SCHEMA }} >> .env
+#           echo TYPEORM_RUN_MIGRATION=${{ secrets.TYPEORM_RUN_MIGRATION }} >> .env
+#           echo TYPEORM_LOG=${{ secrets.TYPEORM_LOG }} >> .env
+#       - name: Build docker image
+#         run: docker-compose --project-name template -f docker-compose.build.yml build
+#       - name: Tag docker image
+#         run: docker tag template_app:latest ${{ secrets.DOCKER_REPO_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ steps.extract_version.outputs.version }}
+#       - name: Push docker image to docker hub
+#         run: docker push ${{ secrets.DOCKER_REPO_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:${{ steps.extract_version.outputs.version }}
+
+#   deploy:
+#     name: AWS Deploy
+#     needs: docker
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Extract package.json version
+#         id: extract_version
+#         uses: Saionaro/extract-package-version@v1.0.6
+#       - name: Setup environments variables
+#         run: |
+#           touch .env
+#           echo DB_INIT_DB=${{ secrets.DB_INIT_DB }} >> .env
+#           echo DB_ADMIN_MAIL=${{ secrets.DB_ADMIN_MAIL }} >> .env
+#           echo DB_ADMIN_PASS=${{ secrets.DB_ADMIN_PASS }} >> .env
+#           echo DB_ADMIN_HOST_PORT=${{ secrets.DB_ADMIN_HOST_PORT }} >> .env
+#           echo DB_ADMIN_GUEST_PORT=${{ secrets.DB_ADMIN_GUEST_PORT }} >> .env
+#           echo TYPEORM_USERNAME=${{ secrets.TYPEORM_USERNAME }} >> .env
+#           echo TYPEORM_PASSWORD=${{ secrets.TYPEORM_PASSWORD }} >> .env
+#           echo TYPEORM_PORT=${{ secrets.TYPEORM_PORT }} >> .env
+#           echo TEMPLATE_IMAGE_VERSION=${{ steps.extract_version.outputs.version }} >> .env
+#       - name: Connect to Ec2 & Pull Repo
+#         uses: easingthemes/ssh-deploy@v2.1.5
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+#           SOURCE: './'
+#           REMOTE_HOST: ${{ secrets.EC2_REMOTE_HOST }}
+#           REMOTE_USER: ${{ secrets.EC2_REMOTE_USER }}
+#           TARGET: ${{ secrets.EC2_TARGET }}
+#       - name: Connect to Ec2 and Run Containers
+#         env:
+#           PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY  }}
+#           HOSTNAME: ${{ secrets.EC2_REMOTE_HOST  }}
+#           USER_NAME: ${{ secrets.EC2_REMOTE_USER  }}
+#           GITHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+#           GITHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+#         run: |
+#           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+#           Username=${GITHUB_USERNAME}
+#           Token=${GITHUB_TOKEN}
+#           ssh -i private_key ${USER_NAME}@${HOSTNAME} "cd /home/ec2-user/template &&  docker login --username $Username --password $Token && docker-compose up -d"
+
+#   # coverage:
+#   #   name: Coverage Report
+#   #   needs: docker
+#   #   permissions:
+#   #     checks: write
+#   #     pull-requests: write
+#   #   runs-on: ubuntu-latest
+#   #   steps:
+#   #     - uses: actions/checkout@v3
+#   #     - uses: ArtiomTr/jest-coverage-report-action@v2

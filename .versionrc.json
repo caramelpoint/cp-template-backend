@@ -1,0 +1,16 @@
+{
+  "types": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "chore", "hidden": true },
+    { "type": "docs", "section": "Docs" },
+    { "type": "style", "hidden": true },
+    { "type": "refactor", "hidden": true },
+    { "type": "perf", "hidden": true },
+    { "type": "test", "section": "Tests" },
+    { "type": "build", "section": "Build System" }
+  ],
+  "commitUrlFormat": "https://github.com/caramelpoint/cp-template-backend/commit/{{hash}}",
+  "compareUrlFormat": "https://github.com/caramelpoint/cp-template-backend/compare/{{previousTag}}...{{currentTag}}",
+  "issueUrlFormat": "https://github.com/caramelpoint/cp-template-backend/issues/{{id}}"
+}

@@ -5,10 +5,10 @@ services:
     restart: always
     environment:
       POSTGRES_DB: ${DB_INIT_DB}
-      POSTGRES_USER: ${DB_ROOT_USER}
-      POSTGRES_PASSWORD: ${DB_ROOT_PASS}
+      POSTGRES_USER: ${TYPEORM_USERNAME}
+      POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
     ports:
-      - ${DB_HOST_PORT}:${DB_GUEST_PORT}
+      - ${TYPEORM_PORT}:${TYPEORM_PORT}
     volumes:
       - template-db-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -23,6 +23,14 @@ services:
       - ${DB_ADMIN_HOST_PORT}:${DB_ADMIN_GUEST_PORT}
     volumes:
       - template-dbadmin-data:/var/lib/pgadmin
+    depends_on:
+      - template-db
+  app:
+    image: caramelpointdr/template:${TEMPLATE_IMAGE_VERSION}
+    expose:
+      - '80'
+    ports:
+      - '80:3000'
     depends_on:
       - template-db
 volumes:
