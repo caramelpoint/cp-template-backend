@@ -40,7 +40,7 @@ export class UsersService {
   }
 
   async getByEmail(email: string): Promise<User> {
-    const user = await this.usersRepository.findOne({ email });
+    const user = await this.usersRepository.findOneBy({ email });
     if (user) {
       return user;
     }
@@ -49,7 +49,7 @@ export class UsersService {
 
   async validateUserPassword(userSignInDto: UserSignInDto): Promise<User> {
     const { email, password } = userSignInDto;
-    const user = await this.usersRepository.findOne({ email });
+    const user = await this.usersRepository.findOneBy({ email });
 
     if (user && (await user.validatePassword(password))) {
       return user;

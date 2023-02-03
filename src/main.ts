@@ -10,8 +10,8 @@ CrudConfigService.load(CrudConfiguration);
 const configureSwagger = (app: INestApplication) => {
   const options = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('CP NestJs template API')
-    .setDescription('The template API documentation')
+    .setTitle('Ibero Jet API')
+    .setDescription('The Ibero Jet API documentation')
     .setVersion('1.0')
     .addTag('APIs')
     .build();

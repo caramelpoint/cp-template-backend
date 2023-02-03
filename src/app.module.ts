@@ -27,7 +27,6 @@ import { ExamplesModule } from './examples/examples.module';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync(jwtModuleAsyncOptions),
     AuthModule,
-    ExamplesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

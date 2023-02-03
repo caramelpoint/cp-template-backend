@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  template-db:
+  ibero-jet-db:
     image: postgres:12.4
     restart: always
     environment:
@@ -10,9 +10,9 @@ services:
     ports:
       - ${TYPEORM_PORT}:${TYPEORM_PORT}
     volumes:
-      - template-db-data:/var/lib/postgresql/data
+      - ibero-jet-db-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-  template-dbadmin:
+  ibero-jet-dbadmin:
     image: dpage/pgadmin4:4.25
     restart: always
     environment:
@@ -22,9 +22,9 @@ services:
     ports:
       - ${DB_ADMIN_HOST_PORT}:${DB_ADMIN_GUEST_PORT}
     volumes:
-      - template-dbadmin-data:/var/lib/pgadmin
+      - ibero-jet-dbadmin-data:/var/lib/pgadmin
     depends_on:
-      - template-db
+      - ibero-jet-db
 volumes:
-  template-db-data:
-  template-dbadmin-data:
+  ibero-jet-db-data:
+  ibero-jet-dbadmin-data:
